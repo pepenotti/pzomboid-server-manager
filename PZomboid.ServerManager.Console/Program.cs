@@ -5,7 +5,7 @@ const string GREETING = "Welcome to Project Zomboid Server Management Console";
 const string GREETING_LINE = "====================================================";
 
 var linuxCommandService = new LinuxCommandService(
-                                "/opt/pzserver/", 
+                                "/opt/pzserver/",
                                 "start-server.sh", 
                                 new[] { "-servername", "PZServer", "-config", "/home/pzuser/Zomboid/Server/PZServer.init" }, 
                                 "/home/pzuser/Zomboid/");
