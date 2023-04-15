@@ -37,7 +37,7 @@ namespace PZomboid.ServerManager.Core
         public void ShutdownServerAsync()
         {
             var args = screenExecArgs.ToArray();
-            args[SCREEN_EXEC_ARG_COMMAND_POSITION] = "'quit'";
+            args[SCREEN_EXEC_ARG_COMMAND_POSITION] = $"'{SERVER_COMMAND_SHUTDOWN}'";
             Console.WriteLine($"Shutdown: {SCREEN_CMD} | {string.Join(' ', args)}");
 
             Cli.Wrap(SCREEN_CMD)
@@ -67,7 +67,7 @@ namespace PZomboid.ServerManager.Core
 
         public void StartServer()
         {
-            Console.WriteLine($"BashFile: {serverBashArgs} | Bash args: {string.Join(' ', serverBashArgs)} | Bash Dir: {serverBashDirectory}");
+            Console.WriteLine($"BashFile: {serverBashFile} | Bash args: {string.Join(' ', serverBashArgs)} | Bash Dir: {serverBashDirectory}");
             Cli.Wrap(serverBashFile)
                 .WithArguments(serverBashArgs)
                 .WithWorkingDirectory(serverBashDirectory)
