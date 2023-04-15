@@ -31,12 +31,14 @@ namespace PZomboid.ServerManager.Core
             this.serverBashFile = serverBashFile;
             this.serverBashArgs = serverBashArgs;
             this.serverRunFilePath = serverRunFilePath;
+            Init();
         }
 
         public void ShutdownServerAsync()
         {
             var args = screenExecArgs.ToArray();
             args[SCREEN_EXEC_ARG_COMMAND_POSITION] = "'quit'";
+            Console.WriteLine($"Shutdown: {SCREEN_CMD} | {string.Join(' ', args)}");
 
             Cli.Wrap(SCREEN_CMD)
                 .WithArguments(args)
@@ -47,6 +49,7 @@ namespace PZomboid.ServerManager.Core
         {
             var args = screenExecArgs.ToArray();
             args[SCREEN_EXEC_ARG_COMMAND_POSITION] = $"'{command}'";
+            Console.WriteLine($"Exec: {SCREEN_CMD} | {string.Join(' ', args)}");
 
             Cli.Wrap(SCREEN_CMD)
                 .WithArguments(args)
@@ -58,20 +61,22 @@ namespace PZomboid.ServerManager.Core
             var filePath = this.serverRunFilePath.Last() == '/' ||
                            this.serverRunFilePath.Last() == '\\' ?
                             this.serverRunFilePath + "server-console.txt" : "/server-console.txt";
-
+            Console.WriteLine($"Console Log: {filePath}");
             return File.ReadAllText(filePath);
         }
 
         public void StartServer()
         {
+            Console.WriteLine($"BashFile: {serverBashArgs} | Bash args: {string.Join(' ', serverBashArgs)} | Bash Dir: {serverBashDirectory}");
             Cli.Wrap(serverBashFile)
                 .WithArguments(serverBashArgs)
                 .WithWorkingDirectory(serverBashDirectory)
                 .ExecuteAsync();
         }
 
-        private void InitScreen()
+        private void Init()
         {
+            Console.WriteLine($"Init: {SCREEN_CMD} -dmS {SCREEN_SOCKNAME}");
             Cli.Wrap(SCREEN_CMD)
                 .WithArguments(new[] { "-dmS", SCREEN_SOCKNAME })
                 .ExecuteAsync().Task.Wait();
