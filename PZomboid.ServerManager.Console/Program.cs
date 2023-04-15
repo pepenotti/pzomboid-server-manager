@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using PZomboid.ServerManager.Core;
+﻿using PZomboid.ServerManager.Core;
 using System.Drawing;
 
 const string GREETING = "Welcome to Project Zomboid Server Management Console";
@@ -9,7 +8,7 @@ var linuxCommandService = new LinuxCommandService(
                                 "/opt/pzserver/", 
                                 "start-server.sh", 
                                 new[] { "-servername", "PZServer", "-config", "/home/pzuser/Zomboid/Server/PZServer.init" }, 
-                                "/home/pzuser/Zomboid/Server/");
+                                "/home/pzuser/Zomboid/");
 
 var exit = false;
 Console.WriteLine(GREETING);
@@ -20,7 +19,7 @@ while (!exit)
 {
     ShowOptions();
     var command = Console.ReadLine() ?? string.Empty;
-    await ExecuteCommandAsync(command);
+    ExecuteCommand(command);
 }
 
 void ShowOptions()
@@ -35,7 +34,7 @@ void ShowOptions()
     Console.WriteLine();
 }
 
-Task ExecuteCommandAsync(string command)
+void  ExecuteCommand(string command)
 {
     switch (command.ToLowerInvariant())
     {
@@ -64,6 +63,4 @@ Task ExecuteCommandAsync(string command)
             Console.WriteLine($"{command} option is not valid.");
             break;
     }
-
-    return Task.CompletedTask;
 }
