@@ -79,7 +79,7 @@ namespace PZomboid.ServerManager.Core
             Console.WriteLine($"Init: {SCREEN_CMD} -dmS {SCREEN_SOCKNAME}");
             Cli.Wrap(SCREEN_CMD)
                 .WithArguments(new[] { "-dmS", SCREEN_SOCKNAME })
-                .ExecuteAsync().Task.Wait();
+                .ExecuteAsync();
         }
     }
 }
