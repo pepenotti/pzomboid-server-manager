@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PZomboid.ServerManager", "PZomboid.ServerManager\PZomboid.ServerManager.csproj", "{1035C0A1-ABBA-4E27-B98E-8DE2A1CA65DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PZomboid.ServerManager.Console", "PZomboid.ServerManager.Console\PZomboid.ServerManager.Console.csproj", "{D7DEC3F5-F3C5-4C98-B178-88ABED5B219C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PZomboid.ServerManager.Core", "PZomboid.ServerManager.Core\PZomboid.ServerManager.Core.csproj", "{E08082DA-B3DE-4B24-A16A-EAFFBC276A6D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1035C0A1-ABBA-4E27-B98E-8DE2A1CA65DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1035C0A1-ABBA-4E27-B98E-8DE2A1CA65DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1035C0A1-ABBA-4E27-B98E-8DE2A1CA65DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1035C0A1-ABBA-4E27-B98E-8DE2A1CA65DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7DEC3F5-F3C5-4C98-B178-88ABED5B219C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7DEC3F5-F3C5-4C98-B178-88ABED5B219C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7DEC3F5-F3C5-4C98-B178-88ABED5B219C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7DEC3F5-F3C5-4C98-B178-88ABED5B219C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E08082DA-B3DE-4B24-A16A-EAFFBC276A6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E08082DA-B3DE-4B24-A16A-EAFFBC276A6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E08082DA-B3DE-4B24-A16A-EAFFBC276A6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E08082DA-B3DE-4B24-A16A-EAFFBC276A6D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7FF5D5FC-F3BE-4F47-97DA-9FF6A9112AB7}
+	EndGlobalSection
+EndGlobal
