@@ -67,10 +67,13 @@ namespace PZomboid.ServerManager.Core
 
         public void StartServer()
         {
-            Console.WriteLine($"BashFile: {serverBashFile} | Bash args: {string.Join(' ', serverBashArgs)} | Bash Dir: {serverBashDirectory}");
-            Cli.Wrap(serverBashFile)
-                .WithArguments(serverBashArgs)
-                .WithWorkingDirectory(serverBashDirectory)
+            var cmd = $"{serverBashDirectory}{serverBashFile} {string.Join(' ', serverBashArgs)}";
+            Console.WriteLine("Command: " + cmd);
+            var args = screenExecArgs.ToArray();
+            args[SCREEN_EXEC_ARG_COMMAND_POSITION] = $"'{cmd}'";
+
+            Cli.Wrap(SCREEN_CMD)
+                .WithArguments(args)
                 .ExecuteAsync();
         }
 
