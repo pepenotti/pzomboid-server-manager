@@ -13,7 +13,7 @@ namespace PZomboid.ServerManager.Core
 
         private const string SCREEN_CMD = "screen";
         private const string SCREEN_SOCKNAME = "PZServer";
-        private const int SCREEN_EXEC_ARG_COMMAND_POSITION = 5;
+        private const int SCREEN_EXEC_ARG_COMMAND_POSITION = 4;
         private readonly string[] screenExecArgs = new[]
         {
             "-S", SCREEN_SOCKNAME, "-X", "stuff", "'{COMMAND}'", "`echo -ne '\\015'`"  //position 5 should be updated
