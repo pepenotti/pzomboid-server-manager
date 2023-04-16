@@ -61,14 +61,22 @@ namespace PZomboid.ServerManager.Core
 
         public async Task StartServerAsync()
         {
+            var stdOutBuffer = new StringBuilder();
+            var stdErrBuffer = new StringBuilder();
+
             var cmd = $"{serverBashDirectory}{serverBashFile} {string.Join(' ', serverBashArgs)}";
             Console.WriteLine("Command: " + cmd);
             var args = screenExecArgs.Replace(SCREEN_COMMAND_PLACEHOLDER, cmd);
             Console.WriteLine("Args: " + args);
 
-            await Cli.Wrap(SCREEN_CMD)
+            await Cli.Wrap($"{serverBashDirectory}{serverBashFile}")
                 .WithArguments(args)
+                .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
+                .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))
                 .ExecuteAsync();
+
+            Console.WriteLine("Errors: " + stdErrBuffer.ToString());
+            Console.WriteLine("Output: " + stdOutBuffer.ToString());
         }
 
         public async Task InitAsync()
