@@ -13,11 +13,8 @@ namespace PZomboid.ServerManager.Core
 
         private const string SCREEN_CMD = "screen";
         private const string SCREEN_SOCKNAME = "PZServer";
-        private const int SCREEN_EXEC_ARG_COMMAND_POSITION = 4;
-        private readonly string[] screenExecArgs = new[]
-        {
-            "-S", SCREEN_SOCKNAME, "-X", "stuff", "'{COMMAND}'", "`echo -ne '\\015'`"  //position 5 should be updated
-        };
+        private const string SCREEN_COMMAND_PLACEHOLDER = "{COMMAND}";
+        private readonly string screenExecArgs = $"-S {SCREEN_SOCKNAME} -X stuff '{SCREEN_COMMAND_PLACEHOLDER}'`echo -ne '\\015'`";
 
         private const string SERVER_COMMAND_SHUTDOWN = "quit";
 
@@ -35,9 +32,8 @@ namespace PZomboid.ServerManager.Core
 
         public void ShutdownServerAsync()
         {
-            var args = screenExecArgs.ToArray();
-            args[SCREEN_EXEC_ARG_COMMAND_POSITION] = $"{SERVER_COMMAND_SHUTDOWN}";
-            Console.WriteLine($"Shutdown: {SCREEN_CMD} | {string.Join(' ', args)}");
+            var args = screenExecArgs.Replace(SCREEN_COMMAND_PLACEHOLDER, SERVER_COMMAND_SHUTDOWN);
+            Console.WriteLine($"Shutdown: {SCREEN_CMD} | {args}");
 
             Cli.Wrap(SCREEN_CMD)
                 .WithArguments(args)
@@ -46,9 +42,8 @@ namespace PZomboid.ServerManager.Core
 
         public void ExecuteServerCommand(string command)
         {
-            var args = screenExecArgs.ToArray();
-            args[SCREEN_EXEC_ARG_COMMAND_POSITION] = $"{command}";
-            Console.WriteLine($"Exec: {SCREEN_CMD} | {string.Join(' ', args)}");
+            var args = screenExecArgs.Replace(SCREEN_COMMAND_PLACEHOLDER, command);
+            Console.WriteLine($"Exec: {SCREEN_CMD} | Args: {args}");
 
             Cli.Wrap(SCREEN_CMD)
                 .WithArguments(args)
@@ -68,8 +63,8 @@ namespace PZomboid.ServerManager.Core
         {
             var cmd = $"{serverBashDirectory}{serverBashFile} {string.Join(' ', serverBashArgs)}";
             Console.WriteLine("Command: " + cmd);
-            var args = screenExecArgs.ToArray();
-            args[SCREEN_EXEC_ARG_COMMAND_POSITION] = $"{cmd}";
+            var args = screenExecArgs.Replace(SCREEN_COMMAND_PLACEHOLDER, cmd);
+            Console.WriteLine("Args: " + args);
 
             await Cli.Wrap(SCREEN_CMD)
                 .WithArguments(args)
