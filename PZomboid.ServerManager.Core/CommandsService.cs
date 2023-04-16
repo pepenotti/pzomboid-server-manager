@@ -1,4 +1,5 @@
 ﻿using CliWrap;
+using System.Text;
 
 namespace PZomboid.ServerManager.Core
 {
@@ -35,7 +36,7 @@ namespace PZomboid.ServerManager.Core
         public void ShutdownServerAsync()
         {
             var args = screenExecArgs.ToArray();
-            args[SCREEN_EXEC_ARG_COMMAND_POSITION] = $"'{SERVER_COMMAND_SHUTDOWN}'";
+            args[SCREEN_EXEC_ARG_COMMAND_POSITION] = $"{SERVER_COMMAND_SHUTDOWN}";
             Console.WriteLine($"Shutdown: {SCREEN_CMD} | {string.Join(' ', args)}");
 
             Cli.Wrap(SCREEN_CMD)
@@ -46,7 +47,7 @@ namespace PZomboid.ServerManager.Core
         public void ExecuteServerCommand(string command)
         {
             var args = screenExecArgs.ToArray();
-            args[SCREEN_EXEC_ARG_COMMAND_POSITION] = $"'{command}'";
+            args[SCREEN_EXEC_ARG_COMMAND_POSITION] = $"{command}";
             Console.WriteLine($"Exec: {SCREEN_CMD} | {string.Join(' ', args)}");
 
             Cli.Wrap(SCREEN_CMD)
@@ -68,7 +69,7 @@ namespace PZomboid.ServerManager.Core
             var cmd = $"{serverBashDirectory}{serverBashFile} {string.Join(' ', serverBashArgs)}";
             Console.WriteLine("Command: " + cmd);
             var args = screenExecArgs.ToArray();
-            args[SCREEN_EXEC_ARG_COMMAND_POSITION] = $"'{cmd}'";
+            args[SCREEN_EXEC_ARG_COMMAND_POSITION] = $"{cmd}";
 
             await Cli.Wrap(SCREEN_CMD)
                 .WithArguments(args)
@@ -77,10 +78,19 @@ namespace PZomboid.ServerManager.Core
 
         public async Task InitAsync()
         {
+            var stdOutBuffer = new StringBuilder();
+            var stdErrBuffer = new StringBuilder();
+
             Console.WriteLine($"Init: {SCREEN_CMD} -dmS {SCREEN_SOCKNAME}");
             await Cli.Wrap(SCREEN_CMD)
                 .WithArguments(new[] { "-dmS", SCREEN_SOCKNAME })
+                .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
+                .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))
                 .ExecuteAsync();
+
+            Console.WriteLine("Errors: " + stdErrBuffer.ToString());
+            Console.WriteLine("Output: " + stdOutBuffer.ToString());
         }
+
     }
 }
