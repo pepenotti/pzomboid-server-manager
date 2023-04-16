@@ -16,7 +16,7 @@ namespace PZomboid.ServerManager.Core
         private const int SCREEN_EXEC_ARG_COMMAND_POSITION = 5;
         private readonly string[] screenExecArgs = new[]
         {
-            "screen", "-S", SCREEN_SOCKNAME, "-X", "stuff", "'{COMMAND}'", "`echo -ne '\\015'`"  //position 5 should be updated
+            "-S", SCREEN_SOCKNAME, "-X", "stuff", "'{COMMAND}'", "`echo -ne '\\015'`"  //position 5 should be updated
         };
 
         private const string SERVER_COMMAND_SHUTDOWN = "quit";
