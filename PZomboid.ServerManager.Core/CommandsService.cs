@@ -1,4 +1,5 @@
 ﻿using CliWrap;
+using System.Diagnostics;
 using System.Text;
 
 namespace PZomboid.ServerManager.Core
@@ -81,19 +82,28 @@ namespace PZomboid.ServerManager.Core
 
         public async Task InitAsync()
         {
-            var stdOutBuffer = new StringBuilder();
-            var stdErrBuffer = new StringBuilder();
-
-            Console.WriteLine($"Init: {SCREEN_CMD} -dmS {SCREEN_SOCKNAME}");
-            await Cli.Wrap(SCREEN_CMD)
-                .WithArguments(new[] { "-dmS", SCREEN_SOCKNAME })
-                .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
-                .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))
-                .ExecuteAsync();
-
-            Console.WriteLine("Errors: " + stdErrBuffer.ToString());
-            Console.WriteLine("Output: " + stdOutBuffer.ToString());
+            Console.WriteLine("------- INIT --------");
+            var cmd = $"{SCREEN_CMD} -dmS {SCREEN_SOCKNAME}";
+            ExecuteCommand(cmd);
+            Console.WriteLine("------- INIT --------");
         }
+
+        private static void ExecuteCommand(string command)
+        {
+            Console.WriteLine("CMD: " + command);
+            var proc = new Process();
+            proc.StartInfo.FileName = "/bin/bash";
+            proc.StartInfo.Arguments = "-c \" " + command + " \"";
+            proc.StartInfo.UseShellExecute = false;
+            proc.StartInfo.RedirectStandardOutput = true;
+            proc.Start();
+
+            while (!proc.StandardOutput.EndOfStream)
+            {
+                Console.WriteLine(proc.StandardOutput.ReadLine());
+            }
+        }
+
 
     }
 }
