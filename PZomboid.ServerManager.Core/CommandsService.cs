@@ -1,5 +1,4 @@
 ﻿using CliWrap;
-using System.Text;
 
 namespace PZomboid.ServerManager.Core
 {
@@ -31,7 +30,6 @@ namespace PZomboid.ServerManager.Core
             this.serverBashFile = serverBashFile;
             this.serverBashArgs = serverBashArgs;
             this.serverRunFilePath = serverRunFilePath;
-            Init();
         }
 
         public void ShutdownServerAsync()
@@ -65,22 +63,22 @@ namespace PZomboid.ServerManager.Core
             return File.ReadAllText(filePath);
         }
 
-        public void StartServer()
+        public async Task StartServerAsync()
         {
             var cmd = $"{serverBashDirectory}{serverBashFile} {string.Join(' ', serverBashArgs)}";
             Console.WriteLine("Command: " + cmd);
             var args = screenExecArgs.ToArray();
             args[SCREEN_EXEC_ARG_COMMAND_POSITION] = $"'{cmd}'";
 
-            Cli.Wrap(SCREEN_CMD)
+            await Cli.Wrap(SCREEN_CMD)
                 .WithArguments(args)
                 .ExecuteAsync();
         }
 
-        private void Init()
+        public async Task InitAsync()
         {
             Console.WriteLine($"Init: {SCREEN_CMD} -dmS {SCREEN_SOCKNAME}");
-            Cli.Wrap(SCREEN_CMD)
+            await Cli.Wrap(SCREEN_CMD)
                 .WithArguments(new[] { "-dmS", SCREEN_SOCKNAME })
                 .ExecuteAsync();
         }

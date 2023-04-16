@@ -9,6 +9,7 @@ var linuxCommandService = new LinuxCommandService(
                                 "start-server.sh", 
                                 new[] { "-servername", "PZServer", "-config", "/home/pzuser/Zomboid/Server/PZServer.init" }, 
                                 "/home/pzuser/Zomboid/");
+await linuxCommandService.InitAsync();
 
 var exit = false;
 Console.WriteLine(GREETING);
@@ -19,7 +20,7 @@ while (!exit)
 {
     ShowOptions();
     var command = Console.ReadLine() ?? string.Empty;
-    ExecuteCommand(command);
+    await ExecuteCommandAsync(command);
 }
 
 void ShowOptions()
@@ -34,12 +35,12 @@ void ShowOptions()
     Console.WriteLine();
 }
 
-void  ExecuteCommand(string command)
+async Task ExecuteCommandAsync(string command)
 {
     switch (command.ToLowerInvariant())
     {
         case "1":
-            linuxCommandService.StartServer();
+            await linuxCommandService.StartServerAsync();
             break;
         case "2":
             Console.WriteLine("Console output");
